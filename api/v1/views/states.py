@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""
-Module for handling State objects in the RESTful API.
-"""
+"""Module for handling State objects in the RESTful API."""
 
 
 from api.v1.views import app_views
