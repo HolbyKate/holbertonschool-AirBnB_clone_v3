@@ -1,8 +1,6 @@
 #!/usr/bin/python3
-"""
-This module defines views for State objects, handling default
-RESTful API actions.
-"""
+"""Defines views for State objects, handling default
+RESTful API actions"""
 
 
 from api.v1.views import app_views
