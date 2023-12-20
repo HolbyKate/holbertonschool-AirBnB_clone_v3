@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-"""Defines views for State objects, handling default
-RESTful API actions"""
+"""
+Module for handling State objects in the RESTful API.
+"""
 
 
 from api.v1.views import app_views
