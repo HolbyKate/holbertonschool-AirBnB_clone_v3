@@ -156,7 +156,11 @@ Try to resolve a lot of internal bugs and clonage
 ## Authors
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)
+<<<<<<< HEAD
 Cathy Augustin - [Github](https://github.com/HolbyKate) / 
+=======
+Cathy Augustin - [Github](https://github.com/HolbyKate)
+>>>>>>> d90961c824a2fa88a5a05e79fd48e1b956875396
 
 Second part of Airbnb: Joann Vuong
 ## License
