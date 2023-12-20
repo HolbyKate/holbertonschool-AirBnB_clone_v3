@@ -5,6 +5,7 @@ from models import storage
 from api.v1.views import app_views
 from flask import Flask
 import os
+from flask import jsonify
 
 
 app = Flask(__name__)
@@ -15,6 +16,14 @@ app.url_map.strict_slashes = False
 @app.teardown_appcontext
 def teardown_appcontext(exception):
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(e):
+    response = jsonify({'status': 404, 'error': 'not found',
+                        'message': 'invalid resource URI'})
+    response.status_code = 404
+    return response
 
 
 if __name__ == "__main__":
