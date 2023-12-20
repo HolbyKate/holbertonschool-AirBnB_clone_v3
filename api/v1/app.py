@@ -27,11 +27,11 @@ def not_found(e):
     return response
 
 
-class Handler:
-    def not_found(error):
-        response = jsonify({"error": "Not found"})
-        response.status_code = 404
-        return response
+@app.errorhandler(404)
+def not_found(error):
+    response = jsonify({"error": "Not found"})
+    response.status_code = 404
+    return response
 
 
 if __name__ == "__main__":
