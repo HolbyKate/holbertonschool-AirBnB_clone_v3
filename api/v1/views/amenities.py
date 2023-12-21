@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Module for handling Amenity objects in the RESTful API."""
+"""Module for handling Amenity objects in the RESTful API"""
 
 
 from api.v1.views import app_views
