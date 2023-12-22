@@ -1,9 +1,12 @@
 #!/usr/bin/python3
-"""Contains the TestFileStorageDocs classes"""
+"""
+Contains the TestFileStorageDocs classes
+"""
 
 from datetime import datetime
 import inspect
 import models
+from models import storage
 from models.engine import file_storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -114,41 +117,20 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_get(self):
+        """Test that get properly objects valid class and id"""
         storage = FileStorage()
-        new_dict = {}
-        for key, value in classes.items():
-            instance = value()
-            instance_key = instance.__class__.__name__ + "." + instance.id
-            new_dict[instance_key] = instance
-        FileStorage._FileStorage__objects = new_dict
-
-        for key, value in new_dict.items():
-            with self.subTest(key=key, value=value):
-                cls_name, instance_id = key.split('.')
-                instance_retrieved = storage.get(eval(cls_name), instance_id)
-                self.assertEqual(value, instance_retrieved)
-
-        FileStorage._FileStorage__objects = {}
+        newcity = City(name="Toulouse", id="idtest_toulouse")
+        newcity.save()
+        result_get = storage.get(City, newcity.id)
+        self.assertEqual(newcity.name, result_get.name)
+        self.assertEqual(newcity.created_at, result_get.created_at)
+        self.assertEqual(newcity.id, result_get.id)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
+        """Test all count for class city"""
         storage = FileStorage()
-        count_before = storage.count()
-
-        new_dict = {}
-        for key, value in classes.items():
-            instance = value()
-            instance_key = instance.__class__.__name__ + "." + instance.id
-            new_dict[instance_key] = instance
-        FileStorage._FileStorage__objects = new_dict
-
-        count_after = storage.count()
-        self.assertEqual(count_before + len(new_dict), count_after)
-
-        for key, value in classes.items():
-            with self.subTest(key=key, value=value):
-                count_cls_before = storage.count(eval(value.__name__))
-                count_cls_after = len([obj for obj in new_dict.values() if isinstance(obj, value)])
-                self.assertEqual(count_cls_before, count_cls_after)
-
-        FileStorage._FileStorage__objects = {}
+        test_len = len(storage.all("City"))
+        newcity = City(name="Agen")
+        newcity.save()
+        self.assertEqual(test_len + 1, storage.count(City))

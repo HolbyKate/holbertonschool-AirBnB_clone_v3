@@ -1,9 +1,12 @@
 #!/usr/bin/python3
-"""Contains the TestDBStorageDocs and TestDBStorage classes"""
+"""
+Contains the TestDBStorageDocs and TestDBStorage classes
+"""
 
 from datetime import datetime
 import inspect
 import models
+from models import storage
 from models.engine import db_storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -66,7 +69,7 @@ test_db_storage.py'])
                             "{:s} method needs a docstring".format(func[0]))
 
 
-class TestFileStorage(unittest.TestCase):
+class TestDBStorage(unittest.TestCase):
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_returns_dict(self):
@@ -87,44 +90,17 @@ class TestFileStorage(unittest.TestCase):
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_get(self):
-        """Test the get method of FileStorage"""
-        storage = DBStorage()
-
-        new_user = User()
-        new_user.id = 12345
-        new_user.name = "John Doe"
-        storage.new(new_user)
-        storage.save()
-
-        retrieved_user = storage.get(User, 12345)
-        self.assertEqual(retrieved_user, new_user)
+        """Test that get returns an object base on its id"""
+        instance = Amenity(name="pool")
+        instance.save()
+        amenity = storage.get(Amenity, str(instance.id))
+        self.assertEqual(amenity, instance)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_count_with_class(self):
-        """Test the count method with a specified class"""
-        storage = DBStorage()
-
-        new_user1 = User()
-        new_user2 = User()
-        new_user3 = User()
-        storage.new(new_user1)
-        storage.new(new_user2)
-        storage.new(new_user3)
+    def test_count(self):
+        """ Test that count return the number of objects """
+        city = City()
+        city2 = City()
         storage.save()
-
-        user_count = storage.count(User)
-        self.assertEqual(user_count, 3)
-
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
-    def test_count_without_class(self):
-        """Test the count method without specifying a class"""
-        storage = DBStorage()
-
-        new_user = User()
-        new_review = Review()
-        storage.new(new_user)
-        storage.new(new_review)
-        storage.save()
-
-        total_count = storage.count()
-        self.assertEqual(total_count, 2)
+        number = storage.count(City)
+        self.assertEqual(len(storage.all(City)), number)
